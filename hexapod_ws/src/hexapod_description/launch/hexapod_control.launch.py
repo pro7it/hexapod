@@ -33,6 +33,7 @@ def generate_launch_description():
             ])
         ),
         launch_arguments={
+            # 'gz_args': ['-r -s ', world_file],
             'gz_args': ['-r ', world_file],
         }.items(),
     )

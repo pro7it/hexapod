@@ -2,23 +2,18 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="hexapod_leg" params="side prefix x_pos y_pos z_pos yaw_rot">
-    
+
     <link name="${prefix}_coxa_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-coxa.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-coxa.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-coxa-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-      </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.2"/>
@@ -41,19 +36,15 @@
     <link name="${prefix}_femur_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-femur.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-femur.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0 ${0.1 if side == 'left' else -0.1} 0" rpy="-1.57 0 0"/>
+        <origin xyz="0 ${0.01 if side == 'left' else -0.01} 0"
+                rpy="-1.57 0 0"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-femur-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0 ${0.1 if side == 'left' else -0.1} 0" rpy="-1.57 0 0"/>
-      </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.3"/>
@@ -67,7 +58,7 @@
     <joint name="${prefix}_femur_joint" type="revolute">
       <parent link="${prefix}_coxa_link"/>
       <child link="${prefix}_femur_link"/>
-      <origin xyz="0.4 0 0.05" rpy="0 -0.78 0"/>
+      <origin xyz="0.04 0 0.005" rpy="0 -0.78 0"/>
       <axis xyz="0 1 0"/>
       <limit lower="-1.57" upper="1.57" effort="100.0" velocity="3.0"/>
       <dynamics damping="0.5" friction="0.05"/>
@@ -76,19 +67,14 @@
     <link name="${prefix}_tibia_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-tibia.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-tibia.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0.5 -0.05 0" rpy="0 0 3.14"/>
+        <origin xyz="0.05 -0.005 0" rpy="0 0 3.14"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-tibia-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0.5 -0.05 0" rpy="0 0 3.14"/>
-      </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.2"/>
@@ -102,7 +88,7 @@
     <joint name="${prefix}_tibia_joint" type="revolute">
       <parent link="${prefix}_femur_link"/>
       <child link="${prefix}_tibia_link"/>
-      <origin xyz="0.8 0 0" rpy="0 0.78 0"/>
+      <origin xyz="0.08 0 0" rpy="0 0.078 0"/>
       <axis xyz="0 1 0"/>
       <limit lower="-1.57" upper="1.57" effort="100.0" velocity="3.0"/>
       <dynamics damping="0.5" friction="0.05"/>
@@ -111,19 +97,14 @@
     <link name="${prefix}_shield_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/shield.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/shield.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0.4 0.05 0" rpy="0 0 3.14"/>
+        <origin xyz="0.04 0.005 0" rpy="0 0 3.14"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/shield-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0.4 0.05 0" rpy="0 0 3.14"/>
-      </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.05"/>
@@ -137,25 +118,20 @@
     <joint name="${prefix}_shield_joint" type="fixed">
       <parent link="${prefix}_tibia_link"/>
       <child link="${prefix}_shield_link"/>
-      <origin xyz="0.1 0 0" rpy="0 0 0"/>
+      <origin xyz="0.01 0 0" rpy="0 0 0"/>
     </joint>
 
     <link name="${prefix}_micro_switch_tip_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/micro-switch-tip.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/micro-switch-tip.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 3.14"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/micro-switch-tip-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0 0 0" rpy="0 0 3.14"/>
-      </collision>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.02"/>
@@ -169,13 +145,14 @@
     <joint name="${prefix}_micro_switch_tip_joint" type="fixed">
       <parent link="${prefix}_tibia_link"/>
       <child link="${prefix}_micro_switch_tip_link"/>
-      <origin xyz="0.4 0 -1.3" rpy="0 0 0"/>
+      <origin xyz="0.04 0 -0.13" rpy="0 0 0"/>
     </joint>
 
     <link name="${prefix}_tip_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/tip.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/tip.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="orange">
@@ -184,7 +161,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/tip-collision.stl" scale="0.01 0.01 0.01"/>
+          <sphere radius="0.005"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
@@ -203,6 +180,11 @@
       <child link="${prefix}_tip_link"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
+
+    <gazebo reference="${prefix}_tip_link">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+    </gazebo>
 
   </xacro:macro>
 

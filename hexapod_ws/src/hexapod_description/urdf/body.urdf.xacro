@@ -2,95 +2,90 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="hexapod_body">
-    
+
     <link name="base_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/frame.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/frame.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="dark_grey">
           <color rgba="0.2 0.2 0.2 1.0"/>
         </material>
       </visual>
+
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/frame-collision.stl" scale="0.01 0.01 0.01"/>
+          <box size="0.198 0.205 0.016"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
+
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="3.0"/>
         <inertia
-          ixx="0.5" ixy="0.0" ixz="0.0"
-          iyy="0.5" iyz="0.0"
-          izz="0.5"/>
+          ixx="0.005" ixy="0.0" ixz="0.0"
+          iyy="0.005" iyz="0.0"
+          izz="0.005"/>
       </inertial>
     </link>
 
     <link name="top_cover_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/top-cover.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/top-cover.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0 0 0.125" rpy="0 0 0"/>
+        <origin xyz="0 0 0.0125" rpy="0 0 0"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/top-cover-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0 0 0.125" rpy="0 0 0"/>
-      </collision>
+
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.2"/>
         <inertia
-          ixx="0.005" ixy="0.0" ixz="0.0"
-          iyy="0.005" iyz="0.0"
-          izz="0.005"/>
+          ixx="0.00005" ixy="0.0" ixz="0.0"
+          iyy="0.00005" iyz="0.0"
+          izz="0.00005"/>
       </inertial>
     </link>
 
     <joint name="top_cover_joint" type="fixed">
       <parent link="base_link"/>
       <child link="top_cover_link"/>
-      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+      <origin xyz="0 0 0.003" rpy="0 0 0"/>
     </joint>
 
     <link name="bottom_cover_link">
       <visual>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/bottom-cover.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/bottom-cover.stl"
+                scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://hexapod_description/meshes/bottom-cover-collision.stl" scale="0.01 0.01 0.01"/>
-        </geometry>
-        <origin xyz="0 0 0.2" rpy="0 0 0"/>
-      </collision>
+
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.2"/>
         <inertia
-          ixx="0.005" ixy="0.0" ixz="0.0"
-          iyy="0.005" iyz="0.0"
-          izz="0.005"/>
+          ixx="0.00005" ixy="0.0" ixz="0.0"
+          iyy="0.00005" iyz="0.0"
+          izz="0.00005"/>
       </inertial>
     </link>
 
     <joint name="bottom_cover_joint" type="fixed">
       <parent link="base_link"/>
       <child link="bottom_cover_link"/>
-      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <origin xyz="0 0 -0.003" rpy="0 0 0"/>
     </joint>
 
   </xacro:macro>
