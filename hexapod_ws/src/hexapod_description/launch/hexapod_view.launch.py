@@ -3,13 +3,14 @@ from launch import LaunchDescription
 from launch.substitutions import Command, FindExecutable
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.parameter_descriptions import ParameterValue # <--- Додай цей імпорт
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     pkg_share = FindPackageShare(package='hexapod_description').find('hexapod_description')
-    xacro_file = os.path.join(pkg_share, 'urdf', 'single_leg.urdf.xacro')
     
-    # Використовуємо ParameterValue для правильної передачі рядка у ROS 2 Jazzy
+    # Змінюємо шлях на головний файл робота, який містить раму та всі 6 ніг
+    xacro_file = os.path.join(pkg_share, 'urdf', 'hexapod.urdf.xacro')
+    
     robot_description_content = ParameterValue(
         Command([FindExecutable(name='xacro'), ' ', xacro_file]),
         value_type=str
@@ -29,10 +30,13 @@ def generate_launch_description():
         output='screen'
     )
 
+    rviz_config_file = os.path.expanduser('~/.rviz2/hexapod.rviz')
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         output='screen',
+        arguments=['-d', rviz_config_file]
     )
 
     return LaunchDescription([

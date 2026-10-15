@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hexapod">
+
+  <xacro:include filename="$(find hexapod_description)/urdf/body.urdf.xacro"/>
+  <xacro:include filename="$(find hexapod_description)/urdf/leg.urdf.xacro"/>
+
+  <xacro:hexapod_body/>
+
+  <xacro:hexapod_leg side="left" prefix="l1" x_pos="-0.6" y_pos="0.8" z_pos="0.0" yaw_rot="2.35"/>
+  <xacro:hexapod_leg side="left" prefix="l2" x_pos="-0.8" y_pos="0" z_pos="0.0" yaw_rot="3.14"/>
+  <xacro:hexapod_leg side="left" prefix="l3" x_pos="-0.6" y_pos="-0.8" z_pos="0.0" yaw_rot="-2.35"/>
+
+  <xacro:hexapod_leg side="right" prefix="r1" x_pos="0.6" y_pos="0.8" z_pos="0.0" yaw_rot="0.78"/>
+  <xacro:hexapod_leg side="right" prefix="r2" x_pos="0.8" y_pos="0" z_pos="0.0" yaw_rot="0"/>
+  <xacro:hexapod_leg side="right" prefix="r3" x_pos="0.6" y_pos="-0.8" z_pos="0.0" yaw_rot="-0.78"/>
+
+</robot>

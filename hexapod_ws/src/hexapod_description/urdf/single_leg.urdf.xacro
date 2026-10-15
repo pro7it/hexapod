@@ -1,36 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="single_leg_test">
 
-  <material name="orange">
-    <color rgba="1.0 0.5 0.0 1.0"/>
-  </material>
-  <material name="grey">
-    <color rgba="0.5 0.5 0.5 1.0"/>
-  </material>
+  <!-- Тільки порожній базовий лінк -->
+  <link name="base_link"/>
 
-  <link name="base_link">
-    <visual>
-      <geometry>
-        <box size="0.1 0.1 0.1"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.1 0.1 0.1"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
-    </inertial>
-  </link>
-
-  <!-- Підключаємо файл макросу ноги -->
+  <!-- Підключаємо макрос ноги -->
   <xacro:include filename="$(find hexapod_description)/urdf/leg.urdf.xacro"/>
 
-  <!-- Викликаємо макрос для однієї лівої ноги (side="left", префікс="left_front") -->
-  <xacro:hexapod_leg side="left" prefix="left_front" x_pos="0.0" y_pos="0.0" yaw_rot="0.0"/>
+  <!-- Викликаємо одну ногу -->
+  <xacro:hexapod_leg side="left" prefix="l1" x_pos="-0.6" y_pos="0.8" z_pos="0.0" yaw_rot="2.35"/>
+  <xacro:hexapod_leg side="right" prefix="r1" x_pos="0.6" y_pos="0.8" z_pos="0.0" yaw_rot="0.78"/>
 
 </robot>
