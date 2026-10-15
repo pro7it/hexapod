@@ -68,7 +68,7 @@
           <mesh filename="package://hexapod_description/meshes/${side}-tibia.stl"
                 scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0.05 -0.005 0" rpy="0 0 3.14"/>
+        <origin xyz="0.05 ${-0.005 if side == 'left' else 0.005} 0" rpy="0 0 3.14"/>
         <material name="orange">
           <color rgba="1.0 0.5 0.0 1.0"/>
         </material>
