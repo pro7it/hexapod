@@ -34,7 +34,8 @@
       <child link="${prefix}_coxa_link"/>
       <origin xyz="${x_pos} ${y_pos} ${z_pos}" rpy="0 0 ${yaw_rot}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="-1.57" upper="1.57" effort="2.0" velocity="1.0"/>
+      <limit lower="-1.57" upper="1.57" effort="100.0" velocity="3.0"/>
+      <dynamics damping="0.5" friction="0.05"/>
     </joint>
 
     <link name="${prefix}_femur_link">
@@ -68,7 +69,8 @@
       <child link="${prefix}_femur_link"/>
       <origin xyz="0.4 0 0.05" rpy="0 -0.78 0"/>
       <axis xyz="0 1 0"/>
-      <limit lower="-1.57" upper="1.57" effort="2.0" velocity="1.0"/>
+      <limit lower="-1.57" upper="1.57" effort="100.0" velocity="3.0"/>
+      <dynamics damping="0.5" friction="0.05"/>
     </joint>
 
     <link name="${prefix}_tibia_link">
@@ -102,7 +104,8 @@
       <child link="${prefix}_tibia_link"/>
       <origin xyz="0.8 0 0" rpy="0 0.78 0"/>
       <axis xyz="0 1 0"/>
-      <limit lower="-1.57" upper="1.57" effort="2.0" velocity="1.0"/>
+      <limit lower="-1.57" upper="1.57" effort="100.0" velocity="3.0"/>
+      <dynamics damping="0.5" friction="0.05"/>
     </joint>
 
     <link name="${prefix}_shield_link">

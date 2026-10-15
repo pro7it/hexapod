@@ -4,6 +4,8 @@ from launch.substitutions import Command, FindExecutable
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler, TimerAction
+from launch.event_handlers import OnProcessExit
 
 def generate_launch_description():
     pkg_share = FindPackageShare(package='hexapod_description').find('hexapod_description')

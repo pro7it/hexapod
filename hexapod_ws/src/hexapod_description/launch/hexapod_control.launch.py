@@ -1,10 +1,11 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler, TimerAction
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
@@ -40,7 +41,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
-        parameters=[{'robot_description': robot_description}],
+        parameters=[{'robot_description': robot_description, 'use_sim_time': True}],
         output='screen',
     )
 
@@ -57,11 +58,42 @@ def generate_launch_description():
         output='screen',
     )
 
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        output='screen',
+    )
+
+    def spawner(*args):
+        return Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=[*args, '--controller-manager', '/controller_manager',
+                    '--controller-manager-timeout', '60'],
+            parameters=[{'use_sim_time': True}],
+            output='screen',
+        )
+
+    joint_state_broadcaster = spawner('joint_state_broadcaster')
+    joint_trajectory_controller = spawner('joint_trajectory_controller')
+    joint_group_position_controller = spawner('joint_group_position_controller', '--inactive')
+
+    after_spawn = RegisterEventHandler(
+        OnProcessExit(target_action=spawn_robot, on_exit=[joint_state_broadcaster])
+    )
+    after_jsb = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster,
+            on_exit=[joint_trajectory_controller, joint_group_position_controller],
+        )
+    )
+
     return LaunchDescription([
         gazebo,
+        clock_bridge,
         state_publisher,
-        TimerAction(
-            period=5.0,
-            actions=[spawn_robot],
-        ),
+        TimerAction(period=5.0, actions=[spawn_robot]),
+        after_spawn,
+        after_jsb,
     ])
