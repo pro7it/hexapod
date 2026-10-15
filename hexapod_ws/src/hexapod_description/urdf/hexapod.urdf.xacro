@@ -6,7 +6,6 @@
 
   <xacro:hexapod_body/>
 
-  <!-- Left side -->
   <xacro:hexapod_leg side="left" prefix="l1"
                      x_pos="-0.06" y_pos="0.08" z_pos="0.0" yaw_rot="2.35"/>
   <xacro:hexapod_leg side="left" prefix="l2"
@@ -14,7 +13,6 @@
   <xacro:hexapod_leg side="left" prefix="l3"
                      x_pos="-0.06" y_pos="-0.08" z_pos="0.0" yaw_rot="-2.35"/>
 
-  <!-- Right side -->
   <xacro:hexapod_leg side="right" prefix="r1"
                      x_pos="0.06" y_pos="0.08" z_pos="0.0" yaw_rot="0.78"/>
   <xacro:hexapod_leg side="right" prefix="r2"
@@ -22,7 +20,6 @@
   <xacro:hexapod_leg side="right" prefix="r3"
                      x_pos="0.06" y_pos="-0.08" z_pos="0.0" yaw_rot="-0.78"/>
 
-  <!-- ros2_control: interfaces for all 18 movable joints -->
   <ros2_control name="GazeboSimSystem" type="system">
     <hardware>
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
@@ -125,7 +122,6 @@
     </joint>
   </ros2_control>
 
-  <!-- Gazebo Sim Harmonic integration -->
   <gazebo>
     <plugin
       filename="libgz_ros2_control-system.so"
