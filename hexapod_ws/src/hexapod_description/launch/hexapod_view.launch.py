@@ -8,7 +8,6 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     pkg_share = FindPackageShare(package='hexapod_description').find('hexapod_description')
     
-    # Змінюємо шлях на головний файл робота, який містить раму та всі 6 ніг
     xacro_file = os.path.join(pkg_share, 'urdf', 'hexapod.urdf.xacro')
     
     robot_description_content = ParameterValue(
