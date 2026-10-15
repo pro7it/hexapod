@@ -15,7 +15,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/frame.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/frame-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
@@ -41,7 +41,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/top-cover.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/top-cover-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0.125" rpy="0 0 0"/>
       </collision>
@@ -73,7 +73,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/bottom-cover.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/bottom-cover-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0.2" rpy="0 0 0"/>
       </collision>

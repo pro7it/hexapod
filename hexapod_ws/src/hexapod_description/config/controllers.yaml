@@ -47,5 +47,22 @@ joint_trajectory_controller:
 joint_group_position_controller:
   ros__parameters:
     joints:
-      # той самий список із 18 джойнтів, що й вище
+      - l1_coxa_joint
+      - l1_femur_joint
+      - l1_tibia_joint
+      - l2_coxa_joint
+      - l2_femur_joint
+      - l2_tibia_joint
+      - l3_coxa_joint
+      - l3_femur_joint
+      - l3_tibia_joint
+      - r1_coxa_joint
+      - r1_femur_joint
+      - r1_tibia_joint
+      - r2_coxa_joint
+      - r2_femur_joint
+      - r2_tibia_joint
+      - r3_coxa_joint
+      - r3_femur_joint
+      - r3_tibia_joint
     interface_name: position

@@ -15,7 +15,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-coxa.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-coxa-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
@@ -50,7 +50,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-femur.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-femur-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 ${0.1 if side == 'left' else -0.1} 0" rpy="-1.57 0 0"/>
       </collision>
@@ -85,7 +85,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/${side}-tibia.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/${side}-tibia-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0.5 -0.05 0" rpy="0 0 3.14"/>
       </collision>
@@ -120,7 +120,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/shield.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/shield-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0.4 0.05 0" rpy="0 0 3.14"/>
       </collision>
@@ -152,7 +152,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/micro-switch-tip.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/micro-switch-tip-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 3.14"/>
       </collision>
@@ -184,7 +184,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hexapod_description/meshes/tip.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hexapod_description/meshes/tip-collision.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
