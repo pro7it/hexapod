@@ -77,8 +77,7 @@ def generate_launch_description():
         )
 
     joint_state_broadcaster = spawner('joint_state_broadcaster')
-    joint_trajectory_controller = spawner('joint_trajectory_controller')
-    joint_group_position_controller = spawner('joint_group_position_controller', '--inactive')
+    joint_group_position_controller = spawner('joint_group_position_controller')
 
     after_spawn = RegisterEventHandler(
         OnProcessExit(target_action=spawn_robot, on_exit=[joint_state_broadcaster])
@@ -86,7 +85,7 @@ def generate_launch_description():
     after_jsb = RegisterEventHandler(
         OnProcessExit(
             target_action=joint_state_broadcaster,
-            on_exit=[joint_trajectory_controller, joint_group_position_controller],
+            on_exit=[joint_group_position_controller],
         )
     )
 

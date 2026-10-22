@@ -6,43 +6,8 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    joint_trajectory_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
     joint_group_position_controller:
       type: position_controllers/JointGroupPositionController
-
-joint_trajectory_controller:
-  ros__parameters:
-    joints:
-      - l1_coxa_joint
-      - l1_femur_joint
-      - l1_tibia_joint
-      - l2_coxa_joint
-      - l2_femur_joint
-      - l2_tibia_joint
-      - l3_coxa_joint
-      - l3_femur_joint
-      - l3_tibia_joint
-      - r1_coxa_joint
-      - r1_femur_joint
-      - r1_tibia_joint
-      - r2_coxa_joint
-      - r2_femur_joint
-      - r2_tibia_joint
-      - r3_coxa_joint
-      - r3_femur_joint
-      - r3_tibia_joint
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_partial_joints_goal: true
-    open_loop_control: false
-    constraints:
-      stopped_velocity_tolerance: 0.0
-      goal_time: 0.0
 
 joint_group_position_controller:
   ros__parameters:
