@@ -37,15 +37,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="l1_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-coxa"/>
+        <geom name="l1_coxa_col" type="box" pos="0.0265 0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="l1_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="l1_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="l1_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="l1_femur_col" type="box" pos="0.043 -0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-femur"/>
           <body name="l1_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="l1_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="l1_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l1_tibia_col" type="box" pos="0.0207 0.0013 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l1_tibia_col2" type="box" pos="0.048 -0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 -0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-tibia"/>
             <body name="l1_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
@@ -68,15 +70,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="l2_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-coxa"/>
+        <geom name="l2_coxa_col" type="box" pos="0.0265 0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="l2_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="l2_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="l2_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="l2_femur_col" type="box" pos="0.043 -0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-femur"/>
           <body name="l2_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="l2_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="l2_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l2_tibia_col" type="box" pos="0.0207 0.0013 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l2_tibia_col2" type="box" pos="0.048 -0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 -0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-tibia"/>
             <body name="l2_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
@@ -99,15 +103,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="l3_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-coxa"/>
+        <geom name="l3_coxa_col" type="box" pos="0.0265 0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="l3_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="l3_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="l3_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="l3_femur_col" type="box" pos="0.043 -0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-femur"/>
           <body name="l3_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="l3_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="l3_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l3_tibia_col" type="box" pos="0.0207 0.0013 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="l3_tibia_col2" type="box" pos="0.048 -0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 -0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="left-tibia"/>
             <body name="l3_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
@@ -130,15 +136,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="r1_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-coxa"/>
+        <geom name="r1_coxa_col" type="box" pos="0.0265 -0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="r1_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="r1_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="r1_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="r1_femur_col" type="box" pos="0.043 0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 -0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-femur"/>
           <body name="r1_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="r1_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="r1_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r1_tibia_col" type="box" pos="0.0207 -0.0012 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r1_tibia_col2" type="box" pos="0.048 0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-tibia"/>
             <body name="r1_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
@@ -161,15 +169,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="r2_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-coxa"/>
+        <geom name="r2_coxa_col" type="box" pos="0.0265 -0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="r2_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="r2_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="r2_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="r2_femur_col" type="box" pos="0.043 0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 -0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-femur"/>
           <body name="r2_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="r2_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="r2_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r2_tibia_col" type="box" pos="0.0207 -0.0012 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r2_tibia_col2" type="box" pos="0.048 0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-tibia"/>
             <body name="r2_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
@@ -192,15 +202,17 @@
         <inertial pos="0.02964 0.00014 0.00625" quat="-0.0244937 0.77722 -0.0491447 0.626828" mass="0.0771" diaginertia="1.89886e-05 1.8516e-05 1.60354e-05"/>
         <joint name="r3_coxa_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05"/>
         <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-coxa"/>
+        <geom name="r3_coxa_col" type="box" pos="0.0265 -0.0025 0.0125" size="0.0295 0.0095 0.0295" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
         <body name="r3_femur_link" pos="0.04 0 0.005" quat="0.924909 0 -0.380188 0">
           <inertial pos="0.06445 -0.00082 -0.00021" quat="-0.0504537 0.698527 0.0492448 0.712102" mass="0.0814" diaginertia="4.28891e-05 2.93352e-05 1.84457e-05"/>
           <joint name="r3_femur_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-          <geom name="r3_femur_col" type="capsule" fromto="0 0 0  0.08 0 0" size="0.01" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+          <geom name="r3_femur_col" type="box" pos="0.043 0.0025 -0.001" size="0.046 0.0295 0.008" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
           <geom pos="0 -0.01 0" quat="0.707388 -0.706825 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-femur"/>
           <body name="r3_tibia_link" pos="0.08 0 0" quat="0.99924 0 0.0389901 0">
             <inertial pos="0.02796 0.0003 -0.03451" quat="0.697502 -0.177721 -0.171107 0.672777" mass="0.0112" diaginertia="1.57854e-05 1.49616e-05 1.02192e-06"/>
             <joint name="r3_tibia_joint" range="-1.57 1.57" actuatorfrcrange="-3.4 3.4" damping="0.5" frictionloss="0.05" axis="0 1 0"/>
-            <geom name="r3_tibia_col" type="box" pos="0.016 0.0015 -0.047" size="0.037 0.0065 0.058" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r3_tibia_col" type="box" pos="0.0207 -0.0012 -0.0243" quat="0.9063 0 0.4226 0" size="0.0468 0.0063 0.0179" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
+            <geom name="r3_tibia_col2" type="box" pos="0.048 0.0005 -0.0855" size="0.0052 0.0045 0.0254" contype="2" conaffinity="3" rgba="0 1 0 0.4"/>
             <geom pos="0.05 0.005 0" quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" rgba="1 0.5 0 1" density="0" mesh="right-tibia"/>
             <body name="r3_shield_link" pos="0.01 0 0">
               <inertial pos="0.02928 0.00052 -0.04358" quat="0.987244 -0.000217045 -0.159213 -0.000799692" mass="0.0098" diaginertia="1.19162e-05 1.025e-05 2.03776e-06"/>
