@@ -1,0 +1,52 @@
+Що вивчити перед навчанням
+
+Теорії потрібно небагато. Більша частина роботи полягає в тому, щоб написати Gymnasium-середовище навколо вашого MuJoCo. Порядок такий:
+
+1. Gymnasium: як влаштоване середовище (1-2 години)
+
+- Документація: gymnasium.farama.org, розділ "Create a Custom Environment" (Basic Usage і Make your own custom environment).
+- Потрібно зрозуміти п'ять речей: observation_space, action_space, reset() повертає (obs, info), step() повертає (obs, reward, terminated, truncated, info), різницю між terminated (впав) і truncated (кінець часу епізоду).
+- Ваш hexapod_env.py складається саме з цього.
+
+2. MuJoCo Python: те, що ви вже частково знаєте (1 година)
+
+- mujoco.readthedocs.io, розділ Python → Bindings, а також Computation → Contact (data.contact, mj_contactForce).
+- Додатково прочитайте про mj_step у циклі з кількома substeps і про mj_resetData та mj_forward.
+
+3. PPO: інтуїція, без математики (2-3 години)
+
+- OpenAI Spinning Up, сторінки "Introduction to RL" (Part 1-3) і "Proximal Policy Optimization". Це найкраще пояснення людською мовою.
+- Для практики візьміть SB3 docs, сторінки "Getting Started", "RL Tips and Tricks" і "PPO". Особливо корисна "Tips and Tricks": там написано про нормалізацію спостережень і про те, чому VecNormalize майже обов'язковий.
+- Гіперпараметри PPO (n_steps, batch_size, gamma, ent_coef, learning_rate) розбирайте за SB3 docs.
+
+4. Навчання ходьби: готові приклади (найкорисніше)
+
+- Gymnasium MuJoCo Ant (Ant-v5). Це найближчий аналог: чотири ноги, 8 приводів, reward за швидкість уперед. Прочитайте його XML і Python-код у репозиторії gymnasium (gymnasium/envs/mujoco/ant_v5.py). Структура reward, healthy_reward і ctrl_cost майже повністю переносяться на ваш робот.
+- MuJoCo Playground і Legged Gym / Isaac Gym (стаття Rudin et al., "Learning to Walk in Minutes"). Корисні як джерело ідей для reward ходьби.
+- Ключова ідея з цих робіт: reward складається з швидкості вперед, штрафів за енергію, за різкі зміни дій і за колізії.
+
+5. Sim-to-real: пізніше, коли ходьба вже працює
+
+- Domain randomization (випадкове тертя, маса, затримка).
+- Експорт політики в ONNX.
+- Ці теми не потрібні для першого навчання.
+
+Порядок дій
+
+1. Напишіть config.py (action scale, 50 Hz, поза стояння, ваги reward).
+
+- OpenAI Spinning Up, сторінки "Introduction to RL" (Part 1-3) і "Proximal Policy Optimization". Це найкраще пояснення людською мовою.
+- Для практики візьміть SB3 docs, сторінки "Getting Started", "RL Tips and Tricks" і "PPO". Особливо корисна "Tips and Tricks": там написано про нормалізацію спостережень і про те, чому VecNormalize майже обов'язковий.
+- Гіперпараметри PPO (n_steps, batch_size, gamma, ent_coef, learning_rate) розбирайте за SB3 docs.
+
+4. Навчання ходьби: готові приклади (найкорисніше)
+
+- Gymnasium MuJoCo Ant (Ant-v5). Це найближчий аналог: чотири ноги, 8 приводів, reward за швидкість уперед. Прочитайте його XML і Python-код у репозиторії gymnasium (gymnasium/envs/mujoco/ant_v5.py). Структура reward, healthy_reward і ctrl_cost майже повністю переносяться на ваш робот.
+- MuJoCo Playground і Legged Gym / Isaac Gym (стаття Rudin et al., "Learning to Walk in Minutes"). Корисні як джерело ідей для reward ходьби.
+- Ключова ідея з цих робіт: reward складається з швидкості вперед, штрафів за енергію, за різкі зміни дій і за колізії.
+
+5. Sim-to-real: пізніше, коли ходьба вже працює
+
+- Domain randomization (випадкове тертя, маса, затримка).
+- Експорт політики в ONNX.
+- Ці теми не потрібні для першого навчання.
