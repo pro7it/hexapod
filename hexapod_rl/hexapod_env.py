@@ -18,6 +18,11 @@ class HexapodEnv(gym.Env):
             for leg in ["l1", "l2", "l3", "r1", "r2", "r3"]
         ]
 
+        self.foot_site_ids = [
+            self.model.site(f"{leg}_foot").id
+            for leg in ["l1", "l2", "l3", "r1", "r2", "r3"]
+        ]
+
         self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(44,), dtype=np.float32)
         self.action_space = gym.spaces.Box(-1.0, 1.0, shape=(self.model.nu,), dtype=np.float32)
 
@@ -34,6 +39,11 @@ class HexapodEnv(gym.Env):
 
         return np.concatenate([joint_pos, joint_vel, gravity, gyro, phase]).astype(np.float32)
 
+    def _feet_x_body(self):
+        R = self.data.xmat[self.base_id].reshape(3, 3)
+        rel = self.data.site_xpos[self.foot_site_ids] - self.data.xpos[self.base_id]
+        return (rel @ R)[:, 0]
+
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         mujoco.mj_resetData(self.model, self.data)
@@ -48,6 +58,7 @@ class HexapodEnv(gym.Env):
         self.step_count = 0
         self.prev_action = np.zeros(self.model.nu)
         self.target = STAND_POSE.copy()
+        self.liftoff_x = self._feet_x_body()
 
         self.phase = self.np_random.uniform(0, 2 * np.pi)
 
@@ -74,6 +85,9 @@ class HexapodEnv(gym.Env):
         self.last_contact = contact
 
         first_contact = (self.air_time > 0) & contact_filt
+        feet_x = self._feet_x_body()
+        stride = (feet_x - self.liftoff_x) / STRIDE_MAX
+        self.liftoff_x[contact_filt] = feet_x[contact_filt]
         self.air_time += self.dt
         air = np.minimum(self.air_time, AIR_TIME_MAX)
         self.air_time[contact_filt] = 0.0
@@ -87,9 +101,11 @@ class HexapodEnv(gym.Env):
             "r_air": np.sum((air - AIR_TIME_MIN) * first_contact),
             "r_yaw": np.exp(-((self.yaw_rate_avg - TARGET_YAW_RATE) ** 2) / YAW_SIGMA),
             "r_gait": 2 * np.mean(contact == expected) - 1,
+            "r_stride": np.sum(np.clip(stride, -1.0, 1.0) * first_contact),
             "alive": 1.0,
             "pen_yaw": gyro[2] ** 2,
-            "pen_tilt": gravity[0] ** 2 + gravity[1] ** 2,
+            "pen_roll":  gravity[1] ** 2,
+            "pen_pitch": gravity[0] ** 2,
             "pen_rate": np.sum((action - self.prev_action) ** 2),
             "pen_vy": vy ** 2,
             "pen_vz": vz ** 2,
@@ -134,8 +150,10 @@ class HexapodEnv(gym.Env):
             "r_air": terms["r_air"],
             "r_yaw": terms["r_yaw"],
             "r_gait": terms["r_gait"],
+            "r_stride": terms["r_stride"],
             "pen_yaw": terms["pen_yaw"],
-            "pen_tilt": terms["pen_tilt"],
+            "pen_roll":  terms["pen_roll"],
+            "pen_pitch": terms["pen_pitch"],
             "pen_rate": terms["pen_rate"],
             "pen_vy": terms["pen_vy"],
             "pen_vz": terms["pen_vz"],
