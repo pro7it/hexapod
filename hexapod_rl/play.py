@@ -9,8 +9,8 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from hexapod_env import HexapodEnv
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="models/stage3-stride/model")
-parser.add_argument("--vecnorm", default="models/stage3-stride/vecnormalize.pkl")
+parser.add_argument("--model", default="models/best-tripod-v2/model")
+parser.add_argument("--vecnorm", default="models/best-tripod-v2/vecnormalize.pkl")
 args = parser.parse_args()
 
 venv = DummyVecEnv([lambda: HexapodEnv()])
