@@ -4,6 +4,7 @@ import numpy as np
 import mujoco
 
 from config import *
+from controller import Controller
 
 class HexapodEnv(gym.Env):
     def __init__(self):
@@ -22,44 +23,58 @@ class HexapodEnv(gym.Env):
             for leg in ["l1", "l2", "l3", "r1", "r2", "r3"]
         ]
 
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(44,), dtype=np.float32)
+        g = lambda name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, name)
+        parts = ["femur_col", "tibia_col"]
+        self.leg_pairs = [[(g(f"{a}_{pa}"), g(f"{b}_{pb}")) for pa in parts for pb in parts]
+                          for a, b in [("l1", "l2"), ("l2", "l3"), ("r1", "r2"), ("r2", "r3")]]
+        self._fromto = np.zeros(6)
+
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, shape=(Controller.OBS_SIZE,), dtype=np.float32)
         self.action_space = gym.spaces.Box(-1.0, 1.0, shape=(self.model.nu,), dtype=np.float32)
 
-        self.ctrl_low  = self.model.actuator_ctrlrange[:, 0]
-        self.ctrl_high = self.model.actuator_ctrlrange[:, 1]
+        self.controller = Controller(self.dt,
+                                     self.model.actuator_ctrlrange[:, 0],
+                                     self.model.actuator_ctrlrange[:, 1])
 
     def _get_obs(self):
-        joint_pos = self.data.qpos[7:] - STAND_POSE
-        joint_vel = self.data.qvel[6:] * 0.05
         R = self.data.xmat[self.base_id].reshape(3, 3)
         gravity = -R[2, :]
         gyro = self.data.sensordata[self.gyro_adr:self.gyro_adr + 3]
-        phase = [np.sin(self.phase), np.cos(self.phase)]
+        return self.controller.observe(gravity, gyro, self._yaw())
 
-        return np.concatenate([joint_pos, joint_vel, gravity, gyro, phase]).astype(np.float32)
+    def _yaw(self):
+        R = self.data.xmat[self.base_id].reshape(3, 3)
+        return np.arctan2(R[1, 0], R[0, 0])
 
     def _feet_x_body(self):
-        # x кожної стопи в осях корпусу (вперед)
         R = self.data.xmat[self.base_id].reshape(3, 3)
         rel = self.data.site_xpos[self.foot_site_ids] - self.data.xpos[self.base_id]
         return (rel @ R)[:, 0]
 
     def _stroke_penalty(self):
-        # раз на півцикл: наскільки ходи стоп різняться між собою (0 — усі ноги однаково)
-        half = np.sin(self.phase) > 0
+        half = np.sin(self.controller.phase) > 0
         if half == self.half:
             return 0.0
 
         feet_x = self._feet_x_body()
-        sA = self.half   # чи стояла тринога A на землі в щойно завершеному півциклі
+        sA = self.half
         was_stance = np.array([sA, not sA, sA, not sA, sA, not sA])
-        s = np.where(was_stance, -1.0, 1.0)   # на землі стопа йде назад, у повітрі вперед
+        s = np.where(was_stance, -1.0, 1.0)
         d = s * (feet_x - self.half_start_x) / STROKE_D
 
         pen = 0.0 if self.first_half else float(np.mean((d - d.mean()) ** 2))
         self.first_half = False
         self.half = half
         self.half_start_x = feet_x
+        return pen
+
+    def _proximity_penalty(self):
+        pen = 0.0
+        for pairs in self.leg_pairs:
+            d = min(mujoco.mj_geomDistance(self.model, self.data, g1, g2, CLEAR_MIN, self._fromto)
+                    for g1, g2 in pairs)
+            if d < CLEAR_MIN:
+                pen += (1 - d / CLEAR_MIN) ** 2
         return pen
 
     def reset(self, seed=None, options=None):
@@ -74,62 +89,61 @@ class HexapodEnv(gym.Env):
         mujoco.mj_forward(self.model, self.data)
 
         self.step_count = 0
-        self.target = STAND_POSE.copy()
-        self.phase = self.np_random.uniform(0, 2 * np.pi)
-        self.yaw_rate_avg = 0.0
+        self.controller.reset(phase=self.np_random.uniform(0, 2 * np.pi), heading=self._yaw())
         self.vy_avg = 0.0
-        self.prev_action = np.zeros(self.model.nu)
 
         self.air_time = np.zeros(6)
-        self.last_contact = np.ones(6, dtype=bool)
 
-        self.half = np.sin(self.phase) > 0
+        self.half = np.sin(self.controller.phase) > 0
         self.half_start_x = self._feet_x_body()
-        self.first_half = True   # перший півцикл неповний (старт з випадкової фази), його не рахуємо
+        self.first_half = True
 
         obs = self._get_obs()
         return obs, {}
 
     def _air_time_reward(self, contact):
-        # у момент приземлення: (час у повітрі − AIR_TIME_MIN); короткі підскоки дають штраф
-        contact_filt = contact | self.last_contact   # згладжує одиночні «мигання» контакту
-        self.last_contact = contact
-
-        first_contact = (self.air_time > 0) & contact_filt
-        self.air_time += self.dt
+        first_contact = (self.air_time > 0) & contact
         air = np.minimum(self.air_time, AIR_TIME_MAX)
-        self.air_time[contact_filt] = 0.0
-        return float(np.sum((air - AIR_TIME_MIN) * first_contact))
+        reward = float(np.sum((air - AIR_TIME_MIN) * first_contact))
 
-    def reward(self, action, obs):
+        self.air_time += self.dt
+        self.air_time[contact] = 0.0
+        return reward
+
+    def reward(self, action, prev_action, obs):
         R = self.data.xmat[self.base_id].reshape(3, 3)
-        vx, vy, _ = R.T @ self.data.qvel[:3]
+        vx, vy, vz = R.T @ self.data.qvel[:3]
 
         gravity = obs[36:39]
         gyro = obs[39:42]
 
-        # усереднення приблизно за цикл кроку, щоб не карати за гойдання всередині кроку
-        self.yaw_rate_avg = YAW_FILTER * self.yaw_rate_avg + (1 - YAW_FILTER) * gyro[2]
-        self.vy_avg = YAW_FILTER * self.vy_avg + (1 - YAW_FILTER) * vy
+        self.vy_avg = VY_FILTER * self.vy_avg + (1 - VY_FILTER) * vy
+        vx_cmd, vy_cmd, yaw_rate_cmd = self.controller.command
 
-        # тринога A (l1, r2, l3) на землі при sin(phase) > 0, тринога B — навпаки
         contact = self.data.sensordata[self.touch_adrs] > 0.0
-        stance_A = np.sin(self.phase) > 0
+        stance_A = np.sin(self.controller.phase) > 0
         expected = np.array([stance_A, not stance_A, stance_A,
                              not stance_A, stance_A, not stance_A])
 
+        feet_z = self.data.site_xpos[self.foot_site_ids, 2]
+        swing = ~expected
+
         terms = {
-            "r_vel": np.clip(vx / V_MAX, -1.0, 1.0),
+            "r_vel": np.clip(vx / vx_cmd, -1.0, 1.0),
             "r_gait": 2 * np.mean(contact == expected) - 1,
-            "r_yaw": np.exp(-((self.yaw_rate_avg - TARGET_YAW_RATE) ** 2) / YAW_SIGMA),
-            "r_vy": np.exp(-(self.vy_avg ** 2) / VY_SIGMA),
+            "r_heading": np.exp(-(obs[44] ** 2) / HEADING_SIGMA),
+            "r_vy": np.exp(-((self.vy_avg - vy_cmd) ** 2) / VY_SIGMA),
             "r_air": self._air_time_reward(contact),
             "pen_roll": gravity[1] ** 2,
             "pen_pitch": gravity[0] ** 2,
             "pen_stroke": self._stroke_penalty(),
-            "pen_rate": np.sum((action - self.prev_action) ** 2),
+            "pen_angvel": gyro[0] ** 2 + gyro[1] ** 2 + (gyro[2] - yaw_rate_cmd) ** 2,
+            "pen_vy": (vy - vy_cmd) ** 2,
+            "pen_vz": vz ** 2,
+            "pen_rate": np.sum((action - prev_action) ** 2),
+            "pen_proximity": self._proximity_penalty(),
+            "pen_clearance": float(np.sum(np.clip(1 - feet_z[swing] / FOOT_LIFT, 0, None) ** 2)),
         }
-        self.prev_action = action.copy()
 
         reward = sum(
             REWARD_WEIGHTS[k] * v
@@ -139,20 +153,18 @@ class HexapodEnv(gym.Env):
         return reward, terms
 
     def step(self, action):
-        action = np.clip(action, -1.0, 1.0)
-        new_target = STAND_POSE + ACTION_SCALE * action
-        self.target = ACTION_FILTER * self.target + (1 - ACTION_FILTER) * new_target
-        self.data.ctrl[:] = np.clip(self.target, self.ctrl_low, self.ctrl_high)
+        ctrl, prev_action = self.controller.act(action)
+        action = self.controller.last_action   # обрізана до [-1, 1]
+        self.data.ctrl[:] = ctrl
 
         for _ in range(FRAME_SKIP): mujoco.mj_step(self.model, self.data)
-        self.phase = (self.phase + 2 * np.pi * GAIT_FREQ * self.dt) % (2 * np.pi)
 
         obs = self._get_obs()
 
         R = self.data.xmat[self.base_id].reshape(3, 3)
         velocity_local = R.T @ self.data.qvel[:3]
 
-        reward, terms = self.reward(action, obs)
+        reward, terms = self.reward(action, prev_action, obs)
 
         gravity_z = obs[38]
         terminated = bool(self.data.qpos[2] < MIN_HEIGHT or gravity_z > MIN_UPRIGHT)
@@ -163,6 +175,7 @@ class HexapodEnv(gym.Env):
         info = {
             "forward_vel": velocity_local[0],
             "side_vel": velocity_local[1],
+            "heading_err_deg": np.degrees(abs(obs[44])),
             "reward": reward,
             **terms,
         }

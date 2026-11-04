@@ -9,7 +9,7 @@
           <mesh filename="package://hexapod_description/meshes/frame.stl"
                 scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 -1.5708"/>
         <material name="dark_grey">
           <color rgba="0.2 0.2 0.2 1.0"/>
         </material>
@@ -17,15 +17,15 @@
 
       <collision>
         <geometry>
-          <box size="0.198 0.205 0.016"/>
+          <box size="0.14 0.10 0.02"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </collision>
 
       <inertial>
-        <origin xyz="-0.00002 -0.00106 0.00800" rpy="0 0 0"/>
+        <origin xyz="-0.00106 0.00002 0.00800" rpy="0 0 0"/>
         <mass value="0.4864"/>
-        <inertia ixx="1.763e-03" ixy="-5.177e-08" ixz="5.397e-10" iyy="1.708e-03" iyz="2.214e-09" izz="3.371e-03"/>
+        <inertia ixx="1.708e-03" ixy="5.177e-08" ixz="2.214e-09" iyy="1.763e-03" iyz="-5.397e-10" izz="3.371e-03"/>
       </inertial>
     </link>
 
@@ -51,7 +51,7 @@
     <joint name="top_cover_joint" type="fixed">
       <parent link="base_link"/>
       <child link="top_cover_link"/>
-      <origin xyz="0 0 0.003" rpy="0 0 0"/>
+      <origin xyz="0 0 0.003" rpy="0 0 -1.5708"/>
     </joint>
 
     <link name="bottom_cover_link">
@@ -76,7 +76,7 @@
     <joint name="bottom_cover_joint" type="fixed">
       <parent link="base_link"/>
       <child link="bottom_cover_link"/>
-      <origin xyz="0 0 -0.003" rpy="0 0 0"/>
+      <origin xyz="0 0 -0.003" rpy="0 0 -1.5708"/>
     </joint>
 
   </xacro:macro>
